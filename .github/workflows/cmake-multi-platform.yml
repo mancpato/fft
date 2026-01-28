@@ -12,6 +12,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    
+    # --- NUEVO PASO PARA LIBERAR ESPACIO ---
+    - name: Liberar espacio en disco
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /opt/ghc
+        sudo rm -rf "/usr/local/share/boost"
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
     - name: Instalar Dependencias (CPU)
       run: |
