@@ -1,0 +1,21 @@
+# Binarios y Objetos
+*.o
+bench_final
+a.out
+
+# Resultados y Datos
+*.txt
+*.png
+*.pdf
+
+# Archivos de sistema o editores
+.DS_Store
+.vscode/
+*.swp
+*~
+
+# R Project (si usas RStudio)
+.Rproj.user
+.Rhistory
+.RData
+.Rproj
