@@ -51,7 +51,7 @@ jobs:
     - name: Instalar CUDA Toolkit
       uses: Jimver/cuda-toolkit@v0.2.15
       with:
-        cuda: '12.6.0' # O la versión que prefieras (ej. 11.8.0)
+        cuda: '12.5.0' # O la versión que prefieras (ej. 11.8.0)
         method: 'network'
 
     - name: Set reusable strings
