@@ -24,7 +24,7 @@ jobs:
     - name: Instalar Dependencias (CPU)
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential libopenblas-dev liblapack-dev
+        sudo apt-get install -y build-essential libopenblas-dev liblapack-dev libfftw3-dev
 
     - name: Instalar CUDA Toolkit
       uses: Jimver/cuda-toolkit@v0.2.15
