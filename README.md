@@ -1,3 +1,5 @@
+[![Makefile CI](https://github.com/mancpato/fft/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/mancpato/fft/actions/workflows/cmake-multi-platform.yml)
+
 # FFT Benchmark: CPU vs GPU (Complexity Analysis)
 
 Este proyecto realiza una comparación de rendimiento (benchmarking) entre diferentes implementaciones de la Transformada de Fourier, contrastando algoritmos de fuerza bruta $O(N^2)$ contra algoritmos optimizados $O(N \log N)$, tanto en CPU como en GPU (CUDA).
