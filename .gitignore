@@ -2,6 +2,7 @@
 *.o
 bench_final
 a.out
+fft_comp
 
 # Resultados y Datos
 *.txt
