@@ -1,9 +1,20 @@
+/**
+ * fft_cpu.cpp
+ * Implementaciones CPU de DFT/FFT para benchmarking
+ * Incluye:
+ * - DFT directa 
+ * - DFT con OpenMP
+ * - FFT recursiva naive
+ * - FFTW3, de uso industrial, la mejor opción CPU
+ */
+
 #include "commons.h"
 #include <fftw3.h>
 #include <omp.h>
 #include <math.h>
 #include <string.h> // memcpy
 
+// Versión directa de la DFT, sin optimizaciones
 double DFT(float* in, float* out, int n) 
 {
     double start = omp_get_wtime();
@@ -32,6 +43,7 @@ double DFT(float* in, float* out, int n)
     return omp_get_wtime() - start;
 }
 
+// Versión paralelizada de la DFT con OpenMP
 double DFT_omp(float* in, float* out, int n) 
 {
     double start = omp_get_wtime();
@@ -56,7 +68,7 @@ double DFT_omp(float* in, float* out, int n)
     return omp_get_wtime() - start;
 }
 
-// --- Helper para FFT Recursiva (Cooley-Tukey Naive) ---
+// Helper para FFT Recursiva (Cooley-Tukey Naive) ---
 void fft_recursive_core(Complex* buffer, int n, int step) 
 {
     if (n < 2) return;
@@ -89,7 +101,7 @@ void fft_recursive_core(Complex* buffer, int n, int step)
     }
 }
 
-// Versión recursiva
+// Versión recursiva simple
 void fft_rec_naive(Complex* in, Complex* out, int n) 
 {
     if (n == 1) {
@@ -127,10 +139,11 @@ void fft_rec_naive(Complex* in, Complex* out, int n)
         out[k + n/2].y = even_out[k].y - t_im;
     }
 
-    free(even_in); free(odd_in); free(even_out); free(odd_out);
+    free(even_in);  free(odd_in); 
+    free(even_out); free(odd_out);
 }
 
-// --- 3. FFT (Recursiva Naive Wrapper) ---
+// Versión recursiva simple con OpenMP en la fase de combinación
 double FFT(float* in, float* out, int n) 
 {
     //if (n > 65536) return -1.0; // Límite por stack/memoria recursiva

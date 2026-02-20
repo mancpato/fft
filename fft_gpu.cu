@@ -1,3 +1,14 @@
+/***
+ * fft_gpu.cu
+ * Implementaciones de FFT en GPU usando CUDA
+ * Se inclueyen:
+ * - cuDFT: DFT directo sin optimizaciones
+ * - cuFFTW3: Wrapper para la biblioteca cuFFT de NVIDIA
+ * - cuFFT_basic: FFT iterativa básica sin optimizaciones
+ * - cuFFT_shuffle: FFT optimizada con warp shuffle y shared memory
+ */
+
+
 #include "commons.h"
 #include <cuda_runtime.h>
 #include <cufft.h>
@@ -5,6 +16,7 @@
 
 #define PI 3.14159265358979323846f
 
+// Kernel para la versión directa de la DFT sin optimizaciones
 __global__ void dft_kernel(float2 *in, float2 *out, int n) 
 {
     int k = blockIdx.x * blockDim.x + threadIdx.x;
@@ -23,6 +35,7 @@ __global__ void dft_kernel(float2 *in, float2 *out, int n)
     }
 }
 
+// Versión directa de la DFT sin optimizaciones
 double cuDFT(float* d_in_ptr, float* d_out_ptr, int n) 
 {
     float2* d_in = (float2*)d_in_ptr;
@@ -50,7 +63,7 @@ double cuDFT(float* d_in_ptr, float* d_out_ptr, int n)
     return (double)ms / 1000.0;
 }
 
-// La mejor opción con cuda
+// Versión de uso industrial, la mejor
 double cuFFTW3(float* d_in_ptr, float* d_out_ptr, int n) 
 {
     size_t free_mem, total_mem;
@@ -109,11 +122,7 @@ __global__ void bit_reverse_copy_kernel(float2* in, float2* out, int n, int log2
     }
 }
 
-// ============================================================
-// cuFFT_basic — FFT GPU básico sin optimizaciones
-// Equivalente a fft_rec_naive() de CPU, pero iterativo
-// ============================================================
-
+// Kernel para cuFFT_basic
 __global__ void butterfly_stage_basic_kernel(float2* src, float2* dst, int n, int stage)
 {
     int tid = blockIdx.x * blockDim.x + threadIdx.x;
@@ -150,6 +159,8 @@ __global__ void butterfly_stage_basic_kernel(float2* src, float2* dst, int n, in
     dst[tid] = result;
 }
 
+// Versión iterativa básica de la FFT sin optimizaciones
+// Equivalente a fft_rec_naive() de CPU, pero iterativo
 double cuFFT_basic(float* d_in_ptr, float* d_out_ptr, int n)
 {
     float2* d_in = (float2*)d_in_ptr;
@@ -206,9 +217,8 @@ double cuFFT_basic(float* d_in_ptr, float* d_out_ptr, int n)
     return (double)ms / 1000.0;
 }
 
-// ============================================================
+
 // FFT con Warp Shuffle — Cooley-Tukey radix-2 en GPU
-// ============================================================
 
 // Kernel principal: sub-FFT de hasta 1024 puntos por bloque
 // Etapas 0-4: warp shuffle | Etapas 5-9: shared memory

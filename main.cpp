@@ -13,8 +13,9 @@
 #include <cuda_runtime.h>
 #include <string.h>
 
-#define NUM_REPS 3       // Repeticiones para promediar
-#define MAX_EXP 27       // Hasta 2^27 (aprox límite de 6GB VRAM)
+#define NUM_REPS 3      // Repeticiones para promediar
+#define MAX_EXP 28      // Hasta 2^27 (límite de 6GB VRAM de la RTX3050)
+                        // RTX3060 acepta hasta 2^28
 
 // --- Arreglo Maestro de Algoritmos ---
 // Ordenados por bloques CPU/GPU, por eficiencia creciente
