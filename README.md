@@ -57,7 +57,7 @@ Rscript fft_comp.R
 En `main.cpp`:
 - `NUM_REPS` — Repeticiones por prueba (default: 3)
 - `MAX_EXP` — Tamaño máximo 2^MAX_EXP (default: 27 = 128M elementos)
-- Rango de prueba: 2^14 a 2^27 (ajustable según VRAM disponible)
+- Rango de prueba: 2^8 a 2^27 (ajustable según VRAM disponible)
 
 ## Detalles de Implementación
 

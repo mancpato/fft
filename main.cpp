@@ -87,7 +87,7 @@ int main()
     fputc('\n', csv);
 
     // 2. Ciclo Principal (N)
-    for (int exp = 14; exp <= MAX_EXP; exp++) {
+    for (int exp = 8; exp <= MAX_EXP; exp++) {
         int n = 1 << exp;
         size_t size_bytes = n * sizeof(Complex);
 
