@@ -2,11 +2,16 @@
 *.o
 bench_final
 a.out
+fft_comp
 
 # Resultados y Datos
 *.txt
 *.png
 *.pdf
+*.csv
+*.log
+*.dat
+*.out
 
 # Archivos de sistema o editores
 .DS_Store

@@ -13,8 +13,8 @@
 #include <cuda_runtime.h>
 #include <string.h>
 
-#define NUM_REPS 5       // Repeticiones para promediar
-#define MAX_EXP 28       // Hasta 2^28 (aprox límite de 6GB VRAM)
+#define NUM_REPS 3       // Repeticiones para promediar
+#define MAX_EXP 27       // Hasta 2^27 (aprox límite de 6GB VRAM)
 
 // --- Arreglo Maestro de Algoritmos ---
 // Ordenados por bloques CPU/GPU, por eficiencia creciente
@@ -27,12 +27,12 @@ BenchmarkAlgo algorithms[] = {
 
     // GPU: slowest → fastest
     {"cuDFT",        cuDFT,         true},   // O(N²) brute force
-    {"cuFFT_basic",  cuFFT_basic,   true},   // O(N log N) básico
+    {"cuFFT",        cuFFT_basic,   true},   // O(N log N) básico
     {"cuFFT_shfl",   cuFFT_shuffle, true},   // O(N log N) warp shuffle
     {"cuFFTW3",      cuFFTW3,       true}    // O(N log N) librería
 };
 
-// ¿No es mejor el número mágico 6?
+// ¿No es mejor el número mágico 6？
 const int num_algos = sizeof(algorithms) / sizeof(BenchmarkAlgo);
 
 // --- Helpers de Memoria ---
@@ -87,7 +87,7 @@ int main()
     fputc('\n', csv);
 
     // 2. Ciclo Principal (N)
-    for (int exp = 8; exp <= MAX_EXP-2; exp++) {
+    for (int exp = 14; exp <= MAX_EXP; exp++) {
         int n = 1 << exp;
         size_t size_bytes = n * sizeof(Complex);
 
