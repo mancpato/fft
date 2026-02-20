@@ -13,19 +13,23 @@
 #include <cuda_runtime.h>
 #include <string.h>
 
-#define NUM_REPS 3       // Repeticiones para promediar
+#define NUM_REPS 5       // Repeticiones para promediar
 #define MAX_EXP 28       // Hasta 2^28 (aprox límite de 6GB VRAM)
 
 // --- Arreglo Maestro de Algoritmos ---
-// Ordenado según tu solicitud: DFT, DFT_omp, FFT, cuDFT, FFTW3, cuFFTW3
+// Ordenados por bloques CPU/GPU, por eficiencia creciente
 BenchmarkAlgo algorithms[] = {
-    // Nombre      Función      Límite N       Es GPU?
-    {"DFT",        DFT,         false},
-    {"DFT_omp",    DFT_omp,     false},
-    {"FFT",        FFT,         false},
-    {"cuDFT",      cuDFT,       true},  // Manual GPU
-    {"FFTW3",      FFTW3,       false},
-    {"cuFFTW3",    cuFFTW3,     true}   // Librería GPU
+    // CPU: slowest → fastest
+    {"DFT",          DFT,           false},  // O(N²) serial
+    {"DFT_omp",      DFT_omp,       false},  // O(N²) parallel
+    {"FFT",          FFT,           false},  // O(N log N) recursivo
+    {"FFTW3",        FFTW3,         false},  // O(N log N) librería
+
+    // GPU: slowest → fastest
+    {"cuDFT",        cuDFT,         true},   // O(N²) brute force
+    {"cuFFT_basic",  cuFFT_basic,   true},   // O(N log N) básico
+    {"cuFFT_shfl",   cuFFT_shuffle, true},   // O(N log N) warp shuffle
+    {"cuFFTW3",      cuFFTW3,       true}    // O(N log N) librería
 };
 
 // ¿No es mejor el número mágico 6?
@@ -132,9 +136,8 @@ int main()
             BenchmarkAlgo algo = algorithms[i];
             bool skip = false;
 
-            if (!fftActive[i]) {
+            if (!fftActive[i]) 
                 skip = true;
-            }
 
             if (algo.is_gpu && !gpu_mem_ok) {
                 fftActive[i] = false; 

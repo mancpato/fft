@@ -26,8 +26,10 @@ double DFT_omp(float* in, float* out, int n);
 double FFT(float* in, float* out, int n);
 double FFTW3(float* in, float* out, int n);
 
-// GPU 
-double cuDFT(float* in, float* out, int n);    // Tu versión Manual
-double cuFFTW3(float* in, float* out, int n);  // Versión Librería
+// GPU
+double cuDFT(float* in, float* out, int n);         // DFT Manual O(N²)
+double cuFFT_basic(float* in, float* out, int n);   // FFT básico sin optimizaciones
+double cuFFT_shuffle(float* in, float* out, int n); // FFT con warp shuffle
+double cuFFTW3(float* in, float* out, int n);       // Librería cuFFT
 
 #endif // COMMONS_H
