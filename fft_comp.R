@@ -23,7 +23,7 @@ data_long <- data %>%
 #    IMPORTANTE: Debe coincidir EXACTAMENTE con el orden del CSV
 data_long$Algoritmo <- factor(data_long$Algoritmo,
                               levels = c("DFT", "DFT_omp", "FFT", "FFTW3",
-                                         "cuDFT", "cuFFT_basic", "cuFFT_shfl", "cuFFTW3"))
+                                         "cuDFT", "cuFFT", "cuFFT_shfl", "cuFFTW3"))
 
 # 4. Graficar ----
 p <- ggplot(data_long, aes(x = N, y = Tiempo, color = Algoritmo, shape = Algoritmo)) +
@@ -46,7 +46,7 @@ p <- ggplot(data_long, aes(x = N, y = Tiempo, color = Algoritmo, shape = Algorit
     "FFT"          = "#4DAF4A",  # Verde
     "FFTW3"        = "#377EB8",  # Azul (CPU más rápido)
     "cuDFT"        = "#984EA3",  # Púrpura (GPU más lento)
-    "cuFFT_basic"  = "#A65628",  # Marrón (GPU básico)
+    "cuFFT"        = "#A65628",  # Marrón (GPU básico)
     "cuFFT_shfl"   = "#F781BF",  # Rosa (GPU optimizado)
     "cuFFTW3"      = "#000000"   # Negro (GPU más rápido)
   )) +
