@@ -1,7 +1,6 @@
 # Makefile - Benchmark FFT
 # Autor: Miguel
 
-NVCC = nvcc
 # Ajusta -arch=sm_86 según tu GPU (Ampere/RTX 30xx usa sm_86)
 ARCH = -arch=sm_86 
 CFLAGS = -O3 -Xcompiler -fopenmp 
@@ -15,13 +14,13 @@ OBJS := $(OBJS:.cu=.o)
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(NVCC) $(ARCH) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	nvcc $(ARCH) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 %.o: %.cpp
-	$(NVCC) $(ARCH) $(CFLAGS) -c $< -o $@
+	nvcc $(ARCH) $(CFLAGS) -c $< -o $@
 
 %.o: %.cu
-	$(NVCC) $(ARCH) $(CFLAGS) -c $< -o $@
+	nvcc $(ARCH) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS) $(TARGET)
